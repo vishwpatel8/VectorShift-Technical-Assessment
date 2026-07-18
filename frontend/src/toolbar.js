@@ -2,21 +2,60 @@
 
 import { DraggableNode } from './draggableNode';
 
-export const PipelineToolbar = () => {
+const nodeGroups = [
+  {
+    title: 'Inputs',
+    nodes: [
+      { type: 'customInput', label: 'Input', icon: 'input' },
+      { type: 'text', label: 'Text', icon: 'text' },
+    ],
+  },
+  {
+    title: 'AI',
+    nodes: [
+      { type: 'llm', label: 'LLM', icon: 'llm' },
+      { type: 'promptTemplate', label: 'Prompt Template', icon: 'prompt' },
+    ],
+  },
+  {
+    title: 'Logic',
+    nodes: [
+      { type: 'condition', label: 'Condition', icon: 'condition' },
+      { type: 'jsonParser', label: 'JSON Parser', icon: 'json' },
+    ],
+  },
+  {
+    title: 'Outputs',
+    nodes: [
+      { type: 'customOutput', label: 'Output', icon: 'output' },
+    ],
+  },
+  {
+    title: 'Integrations',
+    nodes: [
+      { type: 'customApiRequest', label: 'API Request', icon: 'api' },
+      { type: 'email', label: 'Email', icon: 'email' },
+    ],
+  },
+];
 
+export const PipelineToolbar = () => {
   return (
-        <div style={{ padding: '10px' }}>
-            <div style={{ marginTop: '20px', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                <DraggableNode type='customInput' label='Input' />
-                <DraggableNode type='llm' label='LLM' />
-                <DraggableNode type='customOutput' label='Output' />
-                <DraggableNode type='text' label='Text' />
-                <DraggableNode type="customApiRequest" label='API Request' />
-                <DraggableNode type="condition" label="Condition" />
-                <DraggableNode type="email" label="Email" />
-                <DraggableNode type="jsonParser" label="JSON Parser" />
-                <DraggableNode type="promptTemplate" label="Prompt Template" />
+    <aside className="node-sidebar">
+      <div className="sidebar-heading">
+        <span className="sidebar-kicker">Workflow tools</span>
+        <h2>Nodes</h2>
       </div>
-    </div>
+      <div className="node-groups">
+        {nodeGroups.map((group) => (
+          <section className="node-group" key={group.title}>
+            <h3>{group.title}</h3>
+            {group.nodes.map((node) => (
+              <DraggableNode key={node.type} {...node} />
+            ))}
+          </section>
+        ))}
+      </div>
+    </aside>
   );
 };

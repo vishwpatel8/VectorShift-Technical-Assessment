@@ -21,8 +21,8 @@ export const BaseNode = ({
 
   return (
     <div className={`base-node ${className}`.trim()} style={style}>
-      <div>{title}</div>
-      <div>{children}</div>
+      <div className="node-title">{title}</div>
+      <div className="node-content">{children}</div>
       {renderHandles(inputs, 'target', Position.Left)}
       {renderHandles(outputs, 'source', Position.Right)}
     </div>
