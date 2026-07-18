@@ -6,9 +6,13 @@ import { useCallback, useRef, useState } from "react";
 import ReactFlow, { Background, Controls, MiniMap } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { ApiRequestNode } from "./nodes/apiRequestNode";
+import { ConditionNode } from "./nodes/conditionNode";
+import { EmailNode } from "./nodes/emailNode";
 import { InputNode } from "./nodes/inputNode";
+import { JsonParserNode } from "./nodes/jsonParserNode";
 import { LLMNode } from "./nodes/llmNode";
 import { OutputNode } from "./nodes/outputNode";
+import { PromptTemplateNode } from "./nodes/promptTemplateNode";
 import { TextNode } from "./nodes/textNode";
 import { useStore } from "./store";
 
@@ -22,6 +26,10 @@ const nodeTypes = {
   customOutput: OutputNode,
   text: TextNode,
   customApiRequest: ApiRequestNode,
+  condition: ConditionNode,
+  email: EmailNode,
+  jsonParser: JsonParserNode,
+  promptTemplate: PromptTemplateNode,
 };
 
 const selector = (state) => ({
