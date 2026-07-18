@@ -22,7 +22,7 @@ export const BaseNode = ({
   return (
     <div className={`base-node ${className}`.trim()} style={style}>
       <div className="node-title">{title}</div>
-      <div className="node-content">{children}</div>
+      <div className="node-content nodrag nowheel">{children}</div>
       {renderHandles(inputs, 'target', Position.Left)}
       {renderHandles(outputs, 'source', Position.Right)}
     </div>
