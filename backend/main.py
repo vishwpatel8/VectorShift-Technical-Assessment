@@ -6,6 +6,7 @@ app = FastAPI()
 def read_root():
     return {'Ping': 'Pong'}
 
+
 @app.get('/pipelines/parse')
 def parse_pipeline(pipeline: str = Form(...)):
     return {'status': 'parsed'}
