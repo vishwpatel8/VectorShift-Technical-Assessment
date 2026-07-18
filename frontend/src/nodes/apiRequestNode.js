@@ -13,7 +13,7 @@ export const ApiRequestNode = ({ id, data }) => {
   return (
     <BaseNode
       title="API Request"
-      handles={[{ type: 'source', id: `${id}-output` }]}
+      outputs={[{ id: `${id}-output` }]}
     >
       <div>
         <label>

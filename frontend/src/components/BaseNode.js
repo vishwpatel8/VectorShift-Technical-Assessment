@@ -1,40 +1,30 @@
 import { Handle, Position } from 'reactflow';
 
-const defaultHandlePosition = {
-  source: Position.Right,
-  target: Position.Left,
-};
-
 export const BaseNode = ({
   title,
   children,
-  handles = [],
+  inputs = [],
+  outputs = [],
   className = '',
   style = {},
 }) => {
-  const nodeStyle = {
-    width: 200,
-    minHeight: 80,
-    border: '1px solid black',
-    background: '#fff',
-    padding: '8px',
-    boxSizing: 'border-box',
-    ...style,
-  };
+  const renderHandles = (handles, type, position) =>
+    handles.map(({ id, style: handleStyle }) => (
+      <Handle
+        key={id}
+        type={type}
+        position={position}
+        id={id}
+        style={handleStyle}
+      />
+    ));
 
   return (
-    <div className={className} style={nodeStyle}>
+    <div className={`base-node ${className}`.trim()} style={style}>
       <div>{title}</div>
       <div>{children}</div>
-      {handles.map(({ type, position, id, style: handleStyle }) => (
-        <Handle
-          key={id}
-          type={type}
-          position={position || defaultHandlePosition[type]}
-          id={id}
-          style={handleStyle}
-        />
-      ))}
+      {renderHandles(inputs, 'target', Position.Left)}
+      {renderHandles(outputs, 'source', Position.Right)}
     </div>
   );
 };

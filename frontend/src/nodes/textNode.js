@@ -13,7 +13,7 @@ export const TextNode = ({ id, data }) => {
   return (
     <BaseNode
       title="Text"
-      handles={[{ type: 'source', id: `${id}-output` }]}
+      outputs={[{ id: `${id}-output` }]}
     >
       <div>
         <label>

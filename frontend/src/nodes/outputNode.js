@@ -18,7 +18,7 @@ export const OutputNode = ({ id, data }) => {
   return (
     <BaseNode
       title="Output"
-      handles={[{ type: 'target', id: `${id}-value` }]}
+      inputs={[{ id: `${id}-value` }]}
     >
       <div>
         <label>
