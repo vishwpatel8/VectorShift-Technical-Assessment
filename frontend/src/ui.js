@@ -40,6 +40,7 @@ const selector = (state) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  deleteElements: state.deleteElements,
 });
 
 export const PipelineUI = () => {
@@ -53,7 +54,10 @@ export const PipelineUI = () => {
     onNodesChange,
     onEdgesChange,
     onConnect,
+    deleteElements,
   } = useStore(selector, shallow);
+  const [selectedNodeIds, setSelectedNodeIds] = useState([]);
+  const [selectedEdgeIds, setSelectedEdgeIds] = useState([]);
 
   const getInitNodeData = (nodeID, type) => {
     let nodeData = { id: nodeID, nodeType: `${type}` };
@@ -100,8 +104,35 @@ export const PipelineUI = () => {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
+  const handleSelectionChange = useCallback(
+    ({ nodes: selectedNodes, edges: selectedEdges }) => {
+      setSelectedNodeIds(selectedNodes.map((node) => node.id));
+      setSelectedEdgeIds(selectedEdges.map((edge) => edge.id));
+    },
+    [],
+  );
+
+  const handleDeleteSelection = useCallback(() => {
+    if (selectedNodeIds.length === 0 && selectedEdgeIds.length === 0) {
+      return;
+    }
+
+    deleteElements(selectedNodeIds, selectedEdgeIds);
+    setSelectedNodeIds([]);
+    setSelectedEdgeIds([]);
+  }, [deleteElements, selectedEdgeIds, selectedNodeIds]);
+
   return (
     <section className="canvas-panel" ref={reactFlowWrapper}>
+      <button
+        type="button"
+        className="canvas-delete-button"
+        onClick={handleDeleteSelection}
+        disabled={selectedNodeIds.length === 0 && selectedEdgeIds.length === 0}
+        title="Delete selected node or edge"
+      >
+        🗑️ Delete
+      </button>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -110,6 +141,7 @@ export const PipelineUI = () => {
         onConnect={onConnect}
         onDrop={onDrop}
         onDragOver={onDragOver}
+        onSelectionChange={handleSelectionChange}
         onInit={setReactFlowInstance}
         nodeTypes={nodeTypes}
         proOptions={proOptions}
