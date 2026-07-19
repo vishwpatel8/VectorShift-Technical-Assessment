@@ -1,19 +1,26 @@
 // textNode.js
 
-import { useEffect, useMemo, useState } from 'react';
-import { useUpdateNodeInternals } from 'reactflow';
-import { BaseNode } from '../components/BaseNode';
+import { useEffect, useMemo } from "react";
+import { useUpdateNodeInternals } from "reactflow";
+import { BaseNode } from "../components/BaseNode";
+import { useNodeField } from "../hooks/useNodeField";
 
 export const TextNode = ({ id, data }) => {
-  const [currText, setCurrText] = useState(data?.text || '{{input}}');
+  const [currText, setCurrText] = useNodeField(
+    id,
+    "text",
+    data?.text || "{{input}}",
+  );
   const updateNodeInternals = useUpdateNodeInternals();
 
   const variables = useMemo(() => {
-    const matches = currText.matchAll(/\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}/g);
+    const matches = currText.matchAll(
+      /\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}/g,
+    );
     return [...new Set([...matches].map((match) => match[1]))];
   }, [currText]);
 
-  const lines = currText.split('\n');
+  const lines = currText.split("\n");
   const longestLine = Math.max(...lines.map((line) => line.length), 0);
   const nodeWidth = Math.min(420, Math.max(220, longestLine * 7 + 54));
   const textAreaHeight = Math.min(180, Math.max(58, lines.length * 22));

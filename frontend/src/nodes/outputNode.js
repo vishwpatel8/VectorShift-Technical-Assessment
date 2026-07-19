@@ -1,11 +1,19 @@
 // outputNode.js
 
-import { useState } from 'react';
-import { BaseNode } from '../components/BaseNode';
+import { BaseNode } from "../components/BaseNode";
+import { useNodeField } from "../hooks/useNodeField";
 
 export const OutputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(data?.outputName || id.replace('customOutput-', 'output_'));
-  const [outputType, setOutputType] = useState(data.outputType || 'Text');
+  const [currName, setCurrName] = useNodeField(
+    id,
+    "outputName",
+    data?.outputName || id.replace("customOutput-", "output_"),
+  );
+  const [outputType, setOutputType] = useNodeField(
+    id,
+    "outputType",
+    data?.outputType || "Text",
+  );
 
   const handleNameChange = (e) => {
     setCurrName(e.target.value);
@@ -16,18 +24,11 @@ export const OutputNode = ({ id, data }) => {
   };
 
   return (
-    <BaseNode
-      title="Output"
-      inputs={[{ id: `${id}-value` }]}
-    >
+    <BaseNode title="Output" inputs={[{ id: `${id}-value` }]}>
       <div>
         <label>
           Name:
-          <input 
-            type="text" 
-            value={currName} 
-            onChange={handleNameChange} 
-          />
+          <input type="text" value={currName} onChange={handleNameChange} />
         </label>
         <label>
           Type:
@@ -39,4 +40,4 @@ export const OutputNode = ({ id, data }) => {
       </div>
     </BaseNode>
   );
-}
+};

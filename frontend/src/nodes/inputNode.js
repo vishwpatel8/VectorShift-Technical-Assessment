@@ -1,11 +1,19 @@
 // inputNode.js
 
-import { useState } from 'react';
-import { BaseNode } from '../components/BaseNode';
+import { BaseNode } from "../components/BaseNode";
+import { useNodeField } from "../hooks/useNodeField";
 
 export const InputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
-  const [inputType, setInputType] = useState(data.inputType || 'Text');
+  const [currName, setCurrName] = useNodeField(
+    id,
+    "inputName",
+    data?.inputName || id.replace("customInput-", "input_"),
+  );
+  const [inputType, setInputType] = useNodeField(
+    id,
+    "inputType",
+    data?.inputType || "Text",
+  );
 
   const handleNameChange = (e) => {
     setCurrName(e.target.value);
@@ -16,18 +24,11 @@ export const InputNode = ({ id, data }) => {
   };
 
   return (
-    <BaseNode
-      title="Input"
-      outputs={[{ id: `${id}-value` }]}
-    >
+    <BaseNode title="Input" outputs={[{ id: `${id}-value` }]}>
       <div>
         <label>
           Name:
-          <input 
-            type="text" 
-            value={currName} 
-            onChange={handleNameChange} 
-          />
+          <input type="text" value={currName} onChange={handleNameChange} />
         </label>
         <label>
           Type:
@@ -39,4 +40,4 @@ export const InputNode = ({ id, data }) => {
       </div>
     </BaseNode>
   );
-}
+};

@@ -1,39 +1,44 @@
 // apiRequestNode.js
 
-import { useState } from 'react';
-import { BaseNode } from '../components/BaseNode';
-import { useStore } from '../store';
+import { BaseNode } from "../components/BaseNode";
+import { useNodeField } from "../hooks/useNodeField";
 
 export const ApiRequestNode = ({ id, data }) => {
-  const [method, setMethod] = useState(data?.method || 'GET');
-  const [url, setUrl] = useState(data?.url || 'https://api.example.com');
-  const [headers, setHeaders] = useState(data?.headers || 'Content-Type: application/json');
-  const [body, setBody] = useState(data?.body || '');
-  const updateNodeField = useStore((state) => state.updateNodeField);
+  const [method, setMethod] = useNodeField(id, "method", data?.method || "GET");
+  const [url, setUrl] = useNodeField(
+    id,
+    "url",
+    data?.url || "https://api.example.com",
+  );
+  const [headers, setHeaders] = useNodeField(
+    id,
+    "headers",
+    data?.headers || "Content-Type: application/json",
+  );
+  const [body, setBody] = useNodeField(id, "body", data?.body || "");
 
   const updateField = (fieldName, setField) => (event) => {
     const value = event.target.value;
     setField(value);
-    updateNodeField(id, fieldName, value);
   };
 
   return (
     <BaseNode
       title="API Request"
       inputs={[
-        { id: `${id}-url`, style: { top: '28%' } },
-        { id: `${id}-headers`, style: { top: '50%' } },
-        { id: `${id}-body`, style: { top: '75%' } },
+        { id: `${id}-url`, style: { top: "28%" } },
+        { id: `${id}-headers`, style: { top: "50%" } },
+        { id: `${id}-body`, style: { top: "75%" } },
       ]}
       outputs={[
-        { id: `${id}-response`, style: { top: '38%' } },
-        { id: `${id}-status`, style: { top: '68%' } },
+        { id: `${id}-response`, style: { top: "38%" } },
+        { id: `${id}-status`, style: { top: "68%" } },
       ]}
     >
       <div>
         <label>
           Method:
-          <select value={method} onChange={updateField('method', setMethod)}>
+          <select value={method} onChange={updateField("method", setMethod)}>
             <option value="GET">GET</option>
             <option value="POST">POST</option>
             <option value="PUT">PUT</option>
@@ -43,15 +48,19 @@ export const ApiRequestNode = ({ id, data }) => {
         </label>
         <label>
           URL:
-          <input type="url" value={url} onChange={updateField('url', setUrl)} />
+          <input type="url" value={url} onChange={updateField("url", setUrl)} />
         </label>
         <label>
           Headers:
-          <input type="text" value={headers} onChange={updateField('headers', setHeaders)} />
+          <input
+            type="text"
+            value={headers}
+            onChange={updateField("headers", setHeaders)}
+          />
         </label>
         <label>
           Body:
-          <textarea value={body} onChange={updateField('body', setBody)} />
+          <textarea value={body} onChange={updateField("body", setBody)} />
         </label>
       </div>
     </BaseNode>
